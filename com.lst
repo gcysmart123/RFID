@@ -1,0 +1,143 @@
+C51 COMPILER V9.01   COM                                                                   04/11/2016 14:38:45 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE COM
+OBJECT MODULE PLACED IN com.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE Receiver\com.c LARGE BROWSE INCDIR(.\Receiver) DEBUG OBJECTEXTEND PRINT(.\c
+                    -om.lst) OBJECT(com.obj)
+
+line level    source
+
+   1          #include "com.h"
+   2          #include "ds1302.h"
+   3          #include "usart.h"
+   4          
+   5          void mcu_to_computer(unsigned char call_type, unsigned char* number,unsigned char key_type)
+   6          {
+   7   1              unsigned char temp1=0,temp2=0,key=0;
+   8   1      
+   9   1              unsigned char sec = 0, hour = 0, min = 0;
+  10   1              Ds1302_Read_Time();
+  11   1      
+  12   1              Usart1_SendData(0xaa);
+  13   1              Usart1_SendData(0x42);
+  14   1              Usart1_SendData(0x01);
+  15   1              Usart1_SendData(0x01);
+  16   1              Usart1_SendData(0x01);
+  17   1              Usart1_SendData(call_type);//呼叫或者取消  91 92
+  18   1              Usart1_SendData(0xff);
+  19   1      
+  20   1              temp1 = *(number+1) << 4 | *(number + 2);
+  21   1              temp2 = *(number+3) << 4 | *(number + 4);
+  22   1              Usart1_SendData(temp1);//号码
+  23   1              Usart1_SendData(temp2);//号码
+  24   1      
+  25   1              switch (key_type)
+  26   1              {
+  27   2              case 1:
+  28   2                      key = 0x01;
+  29   2                      Usart1_SendData(0x01);
+  30   2                      break;  
+  31   2              case 2:
+  32   2                      key = 0x0d; 
+  33   2                      Usart1_SendData(0x0d);
+  34   2                      break;
+  35   2              case 3:
+  36   2                      key = 0x03;
+  37   2                      Usart1_SendData(0x03);
+  38   2                      break;
+  39   2              case 4:
+  40   2                      key = 0x0b; 
+  41   2                      Usart1_SendData(0x0b); 
+  42   2                      break;
+  43   2              case 5:
+  44   2                      key = 0x05;
+  45   2                      Usart1_SendData(0x05);
+  46   2                      break;
+  47   2              case 6:
+  48   2                      key = 0x06;
+  49   2                      Usart1_SendData(0x06);
+  50   2                      break;
+  51   2              case 7:
+  52   2                      key = 0x07;
+  53   2                      Usart1_SendData(0x07);
+  54   2                      break;
+C51 COMPILER V9.01   COM                                                                   04/11/2016 14:38:45 PAGE 2   
+
+  55   2              case 8:
+  56   2                      key = 0x0c;
+  57   2                      Usart1_SendData(0x0c); 
+  58   2                      break;
+  59   2              case 9:
+  60   2                      key = 0x09;
+  61   2                      Usart1_SendData(0x09);
+  62   2                      break;
+  63   2              case 10:
+  64   2                      key = 0x0A;
+  65   2                      Usart1_SendData(0x0A);
+  66   2                      break;
+  67   2              case 11:
+  68   2                      key = 0x04;
+  69   2                      Usart1_SendData(0x04);
+  70   2                      break;
+  71   2              case 12:
+  72   2                      key = 0x08;
+  73   2                      Usart1_SendData(0x08);
+  74   2                      break;
+  75   2              case 13:
+  76   2                      key = 0x02;
+  77   2                      Usart1_SendData(0x02);
+  78   2                      break;
+  79   2              case 14:
+  80   2                      key = 0x0e;
+  81   2                      Usart1_SendData(0x0e);
+  82   2                      break;
+  83   2              case 15:
+  84   2                      key = 0x0f;
+  85   2                      Usart1_SendData(0x0f);
+  86   2                      break;
+  87   2              default:
+  88   2                      key = 0x00;
+  89   2                      Usart1_SendData(0x00);
+  90   2                      break;
+  91   2              }
+  92   1              //Usart1_SendData(key_type);
+  93   1              //键值
+  94   1              
+  95   1      
+  96   1              Usart1_SendData(0);
+  97   1              Usart1_SendData(0);
+  98   1      
+  99   1              hour  =  ((time_buf1[4] / 10)*6) + time_buf1[4];
+ 100   1              min =    ((time_buf1[5] / 10)*6) + time_buf1[5];
+ 101   1              sec  =   ((time_buf1[6] / 10)*6) + time_buf1[6];
+ 102   1      
+ 103   1              Usart1_SendData(hour);
+ 104   1              Usart1_SendData(min);
+ 105   1              Usart1_SendData(sec);
+ 106   1      
+ 107   1              Usart1_SendData(0x1EE + call_type + temp1 + temp2 + key + hour + min + sec);//校验
+ 108   1      
+ 109   1      
+ 110   1              Usart1_SendData(0x55);
+ 111   1      }
+ 112          
+ 113          
+ 114          
+ 115          
+
+C51 COMPILER V9.01   COM                                                                   04/11/2016 14:38:45 PAGE 3   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    458    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      11
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

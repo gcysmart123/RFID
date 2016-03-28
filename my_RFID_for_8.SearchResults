@@ -1,0 +1,11 @@
+---- AWAIT_VOICE_PATCH Æ¥Åä (10 in 3 ÎÄ¼þ) ----
+Gd5800.c (receiver):#ifdef  AWAIT_VOICE_PATCH
+Gd5800.c (receiver):#ifdef  AWAIT_VOICE_PATCH
+Gd5800.c (receiver):#ifdef  AWAIT_VOICE_PATCH
+Key.c (receiver):#ifndef AWAIT_VOICE_PATCH
+Key.c (receiver):#ifdef AWAIT_VOICE_PATCH
+Key.c (receiver):#ifndef AWAIT_VOICE_PATCH				
+Key.c (receiver):#ifdef AWAIT_VOICE_PATCH
+Key.c (receiver):#ifndef AWAIT_VOICE_PATCH
+Tm1629.c (receiver):#ifndef AWAIT_VOICE_PATCH
+Tm1629.c (receiver):#ifndef AWAIT_VOICE_PATCH
